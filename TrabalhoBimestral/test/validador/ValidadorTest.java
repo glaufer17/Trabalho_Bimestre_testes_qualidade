@@ -37,7 +37,12 @@ public class ValidadorTest {
      */
     @Test 
     public void testSomenteNumerosNull() {
-         assertEquals("A entrada deve conter algum valor", false,  Validador.somenteNumeros(""));
+         assertEquals("A entrada deve conter algum valor", false,  Validador.somenteNumeros(null));
+     }
+    
+    @Test 
+    public void testSomenteNumerosVazio() {
+         assertEquals("A entrada deve conter algum valor", false,  Validador.somenteNumeros(" "));
      }
     
     @Test 
@@ -47,7 +52,7 @@ public class ValidadorTest {
     
     @Test 
     public void testSomenteNumerosEspacoIni() {
-         assertEquals("Teste com numeros e espaços no começo", true,  Validador.somenteNumeros(" 123"));
+         assertEquals("Teste com numeros e espaços no começo", false,  Validador.somenteNumeros(" 123"));
      }
     
     @Test 
@@ -57,7 +62,7 @@ public class ValidadorTest {
     
     @Test 
     public void testSomenteNumerosEspacoFim() {
-         assertEquals("Teste com numeros e espaços no fim", true,  Validador.somenteNumeros(" 123 "));
+         assertEquals("Teste com numeros e espaços no fim", false,  Validador.somenteNumeros("123 "));
      }
     
     @Test 
@@ -76,12 +81,12 @@ public class ValidadorTest {
      */
     @Test
     public void testCartaoValido() {
-        assertEquals("", true,  Validador.cartaoValido("5491844600036491"));
+        assertEquals("", true,  Validador.cartaoValido("4532354150316859"));
     }
     
     @Test
     public void testCartaoValidoEspaco() {
-        assertEquals("", true,  Validador.cartaoValido("5491 8446 0003 6491"));
+        assertEquals("", false,  Validador.cartaoValido("5491 8446 0003 6491"));
     }
     
     @Test
@@ -91,31 +96,57 @@ public class ValidadorTest {
     
     @Test
     public void testCartaoValidoMenor15() {
-        assertEquals("", true,  Validador.cartaoValido("30207856991398"));
+        assertEquals("", true,  Validador.cartaoValido("30388785563092"));
     }
+    
+    //---------------------------------------------------//
 
     /**
      * Test of cpfValido method, of class Validador.
      */
     @Test
+    public void testCpfValidoSequencia() {
+        assertEquals("Numeros sequenciais não são aceitos", false,  Validador.cpfValido("11111111111"));
+    }
+    
+    @Test
     public void testCpfValido() {
-        System.out.println("cpfValido");
-        String cpf = "11111111111";
-        boolean expResult = false;
-        boolean result = Validador.cpfValido(cpf);
-        assertEquals(expResult, result);
+        assertEquals("", true,  Validador.cpfValido("52817271092"));
+    }
+    
+    @Test
+    public void testCpfCaractere() {
+        assertEquals("Não são aceitos caractéres especiais na entrada", false,  Validador.cpfValido("607.076.130-86"));
+    }
+    
+    @Test
+    public void testCpfEspaco() {
+        assertEquals("Não são aceitos espaços em branco na entrada", false,  Validador.cpfValido(" 71241503028 "));
+    }
+    
+    @Test
+    public void testCpfinvalido() {
+        assertEquals("Este não é um cpf valido", false,  Validador.cpfValido("71241503027"));
     }
 
+    //---------------------------------------------------//
+    
     /**
      * Test of cnpjValido method, of class Validador.
      */
     @Test
     public void testCnpjValido() {
-        System.out.println("cnpjValido");
-        String cnpj = "";
-        boolean expResult = false;
-        boolean result = Validador.cnpjValido(cnpj);
-        assertEquals(expResult, result);
+        assertEquals("", true,  Validador.cnpjValido("20568853000131"));
+    }
+    
+    @Test
+    public void testCnpjValidoCaractere() {
+        assertEquals("Não são aceitos caractéres especiais na entrada", false,  Validador.cnpjValido("47.110.478/0001-38"));
+    }
+    
+    @Test
+    public void testCnpjValidoEspaco() {
+        assertEquals("Não são aceitos caractéres especiais na entrada", false,  Validador.cnpjValido(" 98831876000184 "));
     }
     
 }

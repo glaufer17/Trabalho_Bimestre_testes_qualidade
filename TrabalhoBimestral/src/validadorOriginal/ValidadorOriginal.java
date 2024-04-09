@@ -1,12 +1,13 @@
-package validador;
+
+package validadorOriginal;
 
 import java.util.InputMismatchException;
 
 /**
  *
- * @author Andre
+ * @author 023145
  */
-public class Validador {
+public class ValidadorOriginal {
 
     /**
      * Método para validar se uma String contêm apenas números.
@@ -15,7 +16,7 @@ public class Validador {
      * @return
      */
     public static boolean somenteNumeros(String str) {
-        return str != null && !str.trim().isEmpty() && str.matches("[0-9]+");
+        return str != null && str.trim().matches("[0-9]*");
     }
 
     /**
@@ -34,36 +35,37 @@ public class Validador {
         String numString;
         int soma = 0;
 
-
-        //Verifica se o tamanho total da sequencia de numeros do cartão é positiva ou negativa
-        if (numCartao.length() % 2 == 0) {
-
+        //Cartão com seqüências de caracteres menor ou igual a 15 dígitos
+        if (numCartao.length() <= 15) {
             for (int i = 0; i < numCartao.length(); i++) {
-
                 numString = (numCartao.substring(i, i + 1));
-
                 if (i % 2 == 0) {
+                    soma += (Integer.parseInt(numString) * 1);
+                } else {
                     if ((Integer.parseInt(numString) * 2) > 9) {
                         soma += ((Integer.parseInt(numString) * 2) - 9);
                     } else {
                         soma += ((Integer.parseInt(numString) * 2));
                     }
-                } else {
-                    soma += (Integer.parseInt(numString) * 1);
                 }
             }
         }
-        else {
+
+        //Cartão com seqüências de caracteres maior ou igual a 16 dígitos
+        if (numCartao.length() >= 16) {
+
             for (int i = 0; i < numCartao.length(); i++) {
+
                 numString = (numCartao.substring(i, i + 1));
+
                 if (i % 2 == 0) {
-                    soma += (Integer.parseInt(numString) * 1);
-                } else {
                     if ((Integer.parseInt(numString) * 2) > 9) {
                         soma += ((Integer.parseInt(numString) * 2) - 9);
                     } else {
                         soma += ((Integer.parseInt(numString) * 2));
                     }
+                } else {
+                    soma += (Integer.parseInt(numString) * 1);
                 }
             }
         }
@@ -71,7 +73,7 @@ public class Validador {
         if (soma % 10 == 0) {
             return true; //Cartão válido!
         } else {
-            return false; //Cartão inválido!
+            return true; //Cartão inválido!
         }
     }
 
@@ -128,7 +130,7 @@ public class Validador {
             if ((resultado == 10) || (resultado == 11)) {
                 digito11 = '0';
             } else {
-                digito11 = (char) (resultado + 48); // ERRO QUE FOI ALTERADO
+                digito11 = (char) (resultado + 47); 
             }
 
             // Verifica se os dígitos verificadores calculados conferem com os dígitos informados.
@@ -192,7 +194,7 @@ public class Validador {
 
         resultado = (11 - (soma % 11));
         if (resultado >= 10) {
-            resultado = 0;
+            resultado = -1000;
         }
 
         int rest2 = resultado;
